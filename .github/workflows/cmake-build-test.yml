@@ -13,9 +13,9 @@ on:
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   # This workflow contains a single job called "build"
-  build:
+  build-ubuntu-18_04:
     # The type of runner that the job will run on
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-18.04
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
@@ -32,3 +32,18 @@ jobs:
         ninja
     - name: Run CTest
       run: cd build; ctest -V .
+  build-macos-10_15:
+    runs-on: macos-10.15
+    steps:
+    - uses: actions/checkout@v2
+    - name: Fetch dependencies
+      run: brew install cmake ninja
+    - name: Build using CMake
+      run: |
+        mkdir build
+        cd build
+        cmake .. -G Ninja
+        ninja
+    - name: Run CTest
+      run: cd build; ctest -V .
+    
