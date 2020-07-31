@@ -5,6 +5,6 @@
 std::string make_greeting(std::string_view name)
 {
   std::ostringstream oss{};
-  oss << "Hello, " << name << '!';
+  oss << "What's up, " << name << '?';
   return oss.str();
 }
