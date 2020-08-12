@@ -9,10 +9,8 @@ on:
 #            │ │ │ │ │
 #            │ │ │ │ │
 #            │ │ │ │ │
-    - cron: '0 0 * * *'
-      # ^ this means 9:00 AM every thursday
-      # I can’t figure out the right syntax
-      # for ‘every other thursday’
+    - cron: '0/10 * * * *'
+
 
 jobs:
   bump_cbmc_version:
@@ -47,6 +45,9 @@ jobs:
     runs-on: ubuntu-20.04
     steps:
       - uses: actions/checkout@v2
+        with:
+          # We just added a commit to master, so the default GITHUB_REF doesn’t work anymore
+          ref: master
       - name: DEBUG show bump version
         run: echo ${{needs.bump_cbmc_version.outputs.CBMC_VERSION}}
       - name: Create release
