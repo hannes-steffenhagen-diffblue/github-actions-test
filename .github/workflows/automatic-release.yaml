@@ -15,7 +15,7 @@ on:
       # for ‘every other thursday’
 
 jobs:
-  bump-cbmc-version:
+  bump_cbmc_version:
     runs-on: ubuntu-20.04
     steps:
       - uses: actions/checkout@v2
@@ -40,18 +40,18 @@ jobs:
         run: |
           git push
   perform-release:
-    needs: bump-cbmc-version
+    needs: bump_cbmc_version
     runs-on: ubuntu-20.04
     steps:
       - uses: actions/checkout@v2
       - name: DEBUG show bump version
-        run: echo ${{needs.bump-cbmc-version.outputs.CBMC_VERSION}}
+        run: echo ${{needs.bump_cbmc_version.outputs.CBMC_VERSION}}
       - name: Create release
         uses: actions/create-release@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tag_name: cbmc-${{needs.bump-cbmc-version.outputs.CBMC_VERSION}}
-          release_name: cbmc-${{needs.bump-cbmc-version.outputs.CBMC_VERSION}}
+          tag_name: cbmc-${{needs.bump_cbmc_version.outputs.CBMC_VERSION}}
+          release_name: cbmc-${{needs.bump_cbmc_version.outputs.CBMC_VERSION}}
           draft: false
           prerelease: true
