@@ -1,3 +1,4 @@
+name: Automatic releases
 on:
   schedule:
 #            ┌───────────── minute (0 - 59)
