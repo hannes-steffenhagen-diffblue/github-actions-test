@@ -9,7 +9,7 @@ on:
 #            │ │ │ │ │
 #            │ │ │ │ │
 #            │ │ │ │ │
-    - cron: '0/10 * * * *'
+    - cron: '0 0 * * *'
       # ^ this means 9:00 AM every thursday
       # I can’t figure out the right syntax
       # for ‘every other thursday’
