@@ -44,6 +44,8 @@ jobs:
     runs-on: ubuntu-20.04
     steps:
       - uses: actions/checkout@v2
+      - name: DEBUG show bump version
+        run: echo ${{needs.bump-cbmc-version.outputs.CBMC_VERSION}}
       - name: Create release
         uses: actions/create-release@v1
         env:
