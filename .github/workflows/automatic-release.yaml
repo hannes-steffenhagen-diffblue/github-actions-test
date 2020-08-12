@@ -17,11 +17,14 @@ on:
 jobs:
   bump_cbmc_version:
     runs-on: ubuntu-20.04
+    outputs:
+      CBMC_VERSION: ${{steps.cbmc_version_number.outputs.CBMC_VERSION}}
     steps:
       - uses: actions/checkout@v2
         with:
           submodules: recursive
       - name: Get new CBMC version number
+        id: cbmc_version_number
         run: |
           NEW_CBMC_VERSION=$(grep '^CBMC_VERSION =' src/config.inc | cut -d = -f 2 | scripts/increment_version.sh)
           echo ::set-env name=CBMC_VERSION::$NEW_CBMC_VERSION
