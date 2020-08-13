@@ -1,6 +1,16 @@
 cmake_minimum_required(VERSION 3.10)
-project(greeting-tool)
 
+
+# Grab the current CBMC version from config.inc
+file(
+  STRINGS src/config.inc CBMC_VERSION
+  REGEX "CBMC_VERSION = (.*)")
+string(REGEX REPLACE "CBMC_VERSION = (.*)" "\\1" CBMC_VERSION ${CBMC_VERSION})
+
+# when config.inc changes we’ll need to reconfigure to check if the version changed
+set_property(DIRECTORY APPEND PROPERTY CMAKE_CONFIGURE_DEPENDS "${CMAKE_CURRENT_SOURCE_DIR}/src/config.inc")
+
+project(greeting-tool VERSION ${CBMC_VERSION})
 
 include(GNUInstallDirs)
 
