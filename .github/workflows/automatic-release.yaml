@@ -16,8 +16,8 @@ jobs:
   bump_cbmc_version:
     runs-on: ubuntu-20.04
     outputs:
-      cbmc_version: ${{steps.cbmc_version_number.outputs.CBMC_VERSION}}
-      bump_git_sha: ${{steps.commit_bump.outputs.bump_git_sha}}
+      cbmc_version: ${{ steps.cbmc_version_number.outputs.CBMC_VERSION }}
+      bump_git_sha: ${{ steps.commit_bump.outputs.bump_git_sha }}
     steps:
       - uses: actions/checkout@v2
         with:
@@ -52,14 +52,14 @@ jobs:
           # We just added a commit to master, so the default GITHUB_REF doesn’t work anymore
           ref: master
       - name: DEBUG show bump version
-        run: echo ${{needs.bump_cbmc_version.outputs.CBMC_VERSION}}
+        run: echo ${{ needs.bump_cbmc_version.outputs.CBMC_VERSION }}
       - name: Create release
         uses: actions/create-release@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tag_name: cbmc-${{needs.bump_cbmc_version.outputs.CBMC_VERSION}}
-          release_name: cbmc-${{needs.bump_cbmc_version.outputs.CBMC_VERSION}}
+          tag_name: cbmc-${{ needs.bump_cbmc_version.outputs.CBMC_VERSION }}
+          release_name: cbmc-${{ needs.bump_cbmc_version.outputs.CBMC_VERSION }}
           draft: false
           prerelease: true
-          commitish: ${{needs.bump_cbmc_version.outputs.bump_git_sha}}
+          commitish: ${{ needs.bump_cbmc_version.outputs.bump_git_sha }}
