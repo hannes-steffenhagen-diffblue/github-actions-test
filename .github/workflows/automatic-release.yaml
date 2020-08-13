@@ -9,14 +9,15 @@ on:
 #            │ │ │ │ │
 #            │ │ │ │ │
 #            │ │ │ │ │
-    - cron: '0 0 0 0 0'
+    - cron: '0/10 * * * *'
 
 
 jobs:
   bump_cbmc_version:
     runs-on: ubuntu-20.04
     outputs:
-      CBMC_VERSION: ${{steps.cbmc_version_number.outputs.CBMC_VERSION}}
+      cbmc_version: ${{steps.cbmc_version_number.outputs.CBMC_VERSION}}
+      bump_git_sha: ${{steps.commit_bump.outputs.bump_git_sha}}
     steps:
       - uses: actions/checkout@v2
         with:
@@ -35,8 +36,10 @@ jobs:
           git config --local user.name github-actions
           git config --local user.email "actions@github.com"
       - name: Commit changes
+        id: commit_bump
         run: |
           git commit -a -m "Bump version to $CBMC_VERSION"
+          echo "::set-output name=bump_git_sha::$(git rev-parse HEAD)"
       - name: Push changes
         run: |
           git push
@@ -59,3 +62,4 @@ jobs:
           release_name: cbmc-${{needs.bump_cbmc_version.outputs.CBMC_VERSION}}
           draft: false
           prerelease: true
+          commitish: ${{needs.bump_cbmc_version.outputs.bump_commit_sha}}
