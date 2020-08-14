@@ -14,20 +14,38 @@ project(greeting-tool VERSION ${CBMC_VERSION})
 
 include(GNUInstallDirs)
 
-add_library(libgreeter src/greeter.cpp)
-target_include_directories(libgreeter
+add_library(greeter src/greeter.cpp)
+target_include_directories(greeter
   PUBLIC
   $<BUILD_INTERFACE:${CMAKE_CURRENT_LIST_DIR}/include>
   $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDE_DIR})
-target_compile_features(libgreeter PUBLIC cxx_std_17)
+target_compile_features(greeter PUBLIC cxx_std_17)
 
-add_executable(greeter app/main.cpp)
-target_link_libraries(greeter PRIVATE libgreeter)
+install(
+  TARGETS greeter
+  DESTINATION "${CMAKE_INSTALL_LIBDIR}")
+
+install(
+  DIRECTORY include/
+  DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}")
+
+add_executable(greeter-bin app/main.cpp)
+target_link_libraries(greeter-bin PRIVATE greeter)
+set_target_properties(greeter-bin
+  PROPERTIES
+    OUTPUT_NAME greeter)
+
+install(
+  TARGETS greeter-bin
+  DESTINATION "${CMAKE_INSTALL_BINDIR}")
+
 
 include(CTest)
 
 if(BUILD_TESTING)
   add_executable(greeter_test test/libgreeter/test.cpp)
-  target_link_libraries(greeter_test PRIVATE libgreeter)
+  target_link_libraries(greeter_test PRIVATE greeter)
   add_test(NAME greeter_test COMMAND greeter_test)
 endif()
+
+include(cmake/packaging.cmake)
