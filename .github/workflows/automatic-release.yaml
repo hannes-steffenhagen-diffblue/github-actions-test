@@ -56,7 +56,7 @@ jobs:
       - name: Create release
         uses: actions/create-release@v1
         env:
-          GITHUB_TOKEN: ${{ secrets.PAT_FOR_RELEASE }}
+          GITHUB_TOKEN: ${{ secrets.PAT_FOR_RELEASES }}
         with:
           tag_name: cbmc-${{ needs.bump_cbmc_version.outputs.CBMC_VERSION }}
           release_name: cbmc-${{ needs.bump_cbmc_version.outputs.CBMC_VERSION }}
