@@ -14,11 +14,13 @@ jobs:
       - name: Fetch dependencies
         run: sudo apt install g++ cmake ninja-build
       - name: Configure CMake
-      - name: Build using CMake
         run: |
           mkdir build
           cd build
           cmake .. -G Ninja -DCMAKE_BUILD_TYPE=Release
+      - name: Build using Ninja
+        run: |
+          cd build
           ninja
       - name: Run CTest
         run: cd build; ctest -V .
