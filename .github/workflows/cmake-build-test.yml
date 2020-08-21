@@ -12,6 +12,15 @@ on:
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
+  demonstrate-multi-action-step-failure:
+    runs-on: ubuntu-18.04
+    steps:
+      - name: This whole step should fail because of the second line
+        run: |
+          echo "doesn’t fail"
+          ls *.deb
+          echo "also doesn’t fail"
+
   # This workflow contains a single job called "build"
   build-ubuntu-18_04:
     # The type of runner that the job will run on
